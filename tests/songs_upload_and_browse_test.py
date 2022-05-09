@@ -4,7 +4,7 @@ from app.db.models import User, Song
 
 
 def test_songs_csv_upload(client):
-    """This tests the functionality of uploading a csv file of songs, and checking the processed records"""
+    """This tests the functionality of uploading a csv file of transactions, and checking the processed records"""
     with client:
         register_response = client.post("/register", data={
             "email": "testuser1@test.com",
@@ -24,9 +24,9 @@ def test_songs_csv_upload(client):
             "file": open('testing_resources/music.csv', 'rb')
         }
 
-        # This makes a call to upload the csv of songs which will be processed.
+        # This makes a call to upload the csv of transactions which will be processed.
         songs_csv_upload_response = client.post(
-            "/songs/upload",
+            "/transactions/upload",
             data=form_data,
             follow_redirects=True)
 
@@ -38,8 +38,8 @@ def test_songs_csv_upload(client):
         assert songs.count() > 10
         assert songs.first().user_id == user_object.id
 
-        # This makes a call to browse the songs uploaded
-        browse_songs_response = client.get("/songs")
+        # This makes a call to browse the transactions uploaded
+        browse_songs_response = client.get("/transactions")
         test_header = f"Browse: Songs"
         test_songs_content = f"Crazy (feat. Joie Tan) [Radio Mix]"
         header_content = bytes(test_header, 'utf-8')
@@ -52,10 +52,10 @@ def test_songs_csv_upload(client):
 def test_songs_csv_upload_access_denied(client):
     """This tests the csv file upload denial"""
     with client:
-        # checking if access to songs upload page without login is redirecting to login page
-        response = client.get("/songs/upload")
+        # checking if access to transactions upload page without login is redirecting to login page
+        response = client.get("/transactions/upload")
         assert response.status_code == 302
         # checking if the redirect is working properly
-        response_following_redirects = client.get("/songs/upload", follow_redirects=True)
+        response_following_redirects = client.get("/transactions/upload", follow_redirects=True)
         assert response_following_redirects.request.path == url_for('auth.login')
         assert response_following_redirects.status_code == 200
