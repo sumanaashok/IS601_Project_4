@@ -39,32 +39,25 @@ def transactions_upload():
     form = csv_upload()
     if form.validate_on_submit():
         user = User.query.get(current_user.id)
+        balance = user.balance if user.balance is not None else 0
         # writing a log into the uploads.log file everytime a csv file is uploaded.
         log = logging.getLogger("uploads")
         log.info('csv upload successful!')
         filename = secure_filename(form.file.data.filename)
         filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
         form.file.data.save(filepath)
-        list_of_transactions = []
         with open(filepath) as file:
             csv_file = csv.DictReader(file)
             for row in csv_file:
-                # list_of_transactions.append(Transaction(user.id, row['AMOUNT'], row['TYPE']))
+                transaction = Transaction(user.id, row['AMOUNT'], row['TYPE'])
+                db.session.add(transaction)
+                if transaction.transaction_type == 'CREDIT':
+                    balance = balance + int(transaction.amount)
+                if transaction.transaction_type == 'DEBIT':
+                    balance = balance - int(transaction.amount)
 
-                transaction = Transaction.query.filter_by(amount=row['AMOUNT']).first()
-                if transaction is None:
-                    current_user.transaction.append(
-                        Transaction(row['AMOUNT'], row['TYPE']))
-                    db.session.commit()
-                else:
-                    current_user.transactions.append(transaction)
-                    db.session.commit()
-
-
-
-        # user.transactions = list_of_transactions
-        # db.session.commit()
-        update_balance()
+            user.balance = balance
+        db.session.commit()
         return redirect(url_for('transactions.transactions_browse'))
 
     try:
@@ -72,18 +65,3 @@ def transactions_upload():
     except TemplateNotFound:
         abort(404)
 
-
-def update_balance():
-    user = User.query.get(current_user.id)
-    user_transactions = Transaction.query.filter_by(user_id=user.id).all()
-
-    balance = user.balance if user.balance is not None else 0
-    for transaction in user_transactions:
-        if transaction.transaction_type == 'CREDIT':
-            balance = balance + transaction.amount
-        if transaction.transaction_type == 'DEBIT':
-            balance = balance - transaction.amount
-
-    user.balance = balance
-    db.session.commit()
-    return
