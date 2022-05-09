@@ -7,9 +7,10 @@
     {% block title %}Browse: {{ record_type }}{% endblock %}
     {% block content %}
 
-                <a href="{{ url_for("songs.songs_upload") }}" class="btn col-3 mb-5 btn-info" role="button">Upload Songs</a>
+                <a href="{{ url_for("transactions.transactions_upload") }}" class="btn col-3 mb-5 btn-info" role="button">Upload Transactions</a>
 
-        <h2>Browse: Songs</h2>
+        <h2>Browse: Transactions</h2>
+        <h2>The available balance is : {{ user_balance }}</h2>
         {{ render_table(data) }}
         {% from 'bootstrap5/pagination.html' import render_pagination %}
 
