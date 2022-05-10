@@ -2,12 +2,12 @@
 
 [![Production Workflow 1](https://github.com/sumanaashok/IS601_Project_3/actions/workflows/prod.yml/badge.svg)](https://github.com/sumanaashok/IS601_Project_3/actions/workflows/prod.yml)
 
-* [Production Deployment](https://sumana-prod.herokuapp.com/)
+* [Production Deployment](https://sumana-project4-prod.herokuapp.com/)
 
 
 [![Development Workflow 3.8](https://github.com/sumanaashok/IS601_Project_3/actions/workflows/dev.yml/badge.svg)](https://github.com/sumanaashok/IS601_Project_3/actions/workflows/dev.yml)
 
-* [Developmental Deployment](https://sumana-dev.herokuapp.com/)
+* [Developmental Deployment](https://sumana-project4-dev.herokuapp.com/)
 
 
 
