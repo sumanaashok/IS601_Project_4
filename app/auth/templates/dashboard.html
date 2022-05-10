@@ -7,8 +7,9 @@
     {% block title %}Welcome: {{ current_user.email }}{% endblock %}
     {% block content %}
         <h2>Welcome: {{ current_user.email }}</h2>
-        {{ render_table(data) }}
-
+        <h3>Account Balance is : {{ user_balance }}</h3>
+        {{ render_table(data, titles=[('id','id'), ('Transaction Amount','Transaction Amount'), ('Transaction Type', 'Transaction Type'), ('Transaction User', 'Transaction User')]) }}
+        {{ render_pagination(pagination) }}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
