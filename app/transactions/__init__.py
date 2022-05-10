@@ -60,14 +60,16 @@ def transactions_upload():
         filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
         form.file.data.save(filepath)
         with open(filepath) as file:
-            csv_file = csv.DictReader(file)
+            field_names = ['AMOUNT', 'TYPE']
+            next(file)
+            csv_file = csv.DictReader(file, fieldnames=field_names,)
             for row in csv_file:
                 transaction = Transaction(user.id, row['AMOUNT'], row['TYPE'])
                 db.session.add(transaction)
                 if transaction.transaction_type == 'CREDIT':
                     balance = balance + int(transaction.amount)
                 if transaction.transaction_type == 'DEBIT':
-                    balance = balance - int(transaction.amount)
+                    balance = balance + int(transaction.amount)
 
             user.balance = balance
         db.session.commit()
