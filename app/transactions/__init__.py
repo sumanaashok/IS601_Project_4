@@ -25,8 +25,21 @@ def transactions_browse(page):
     per_page = 1000
     pagination = Transaction.query.filter_by(user_id=current_user.id).paginate(page, per_page, error_out=False)
     user_object = User.query.get(current_user.id)
+    data = []
+    for count, item in enumerate(pagination.items):
+        transaction = pagination.items[count]
+        transaction_amount = transaction.amount
+        transaction_type = transaction.transaction_type
+        transaction_user = transaction.user_id
+
+        data.append({
+            'id': count+1,
+            'Transaction Amount': transaction_amount,
+            'Transaction Type': transaction_type,
+            'Transaction User': transaction_user
+        })
     user_balance = user_object.balance
-    data = pagination.items
+
     try:
         return render_template('browse_transactions.html', data=data, pagination=pagination, user_balance=user_balance)
     except TemplateNotFound:
