@@ -11,7 +11,7 @@
 
         <h2>Browse: Transactions</h2>
         <h2>The available balance is : {{ user_balance }}</h2>
-        {{ render_table(data) }}
+        {{ render_table(data, titles=[('id','id'), ('Transaction Amount','Transaction Amount'), ('Transaction Type', 'Transaction Type'), ('Transaction User', 'Transaction User')]) }}
         {% from 'bootstrap5/pagination.html' import render_pagination %}
 
         {{ render_pagination(pagination) }}
