@@ -15,4 +15,4 @@
 
 2) After the build completes, Navigate to localhost
 
-## It is a web app that allows user registration and login, and has functionalities to upload CSV with transaction data, calculates the balance based on the transactions and allows users to browse that data, and export it at any time in different formats.
+#### It is a web app that allows user registration and login, and has functionalities to upload CSV with transaction data, calculates the balance based on the transactions and allows users to browse that data, and export it at any time in different formats.
