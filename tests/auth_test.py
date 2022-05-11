@@ -20,7 +20,7 @@ def test_auth_pages(client):
 
 
 def test_user_menu_links(client):
-    """This tests the user page , without login"""
+    """This tests the user links , without login"""
     response = client.get("/profile")
     assert response.status_code == 302
     response = client.get("/account")
@@ -33,6 +33,7 @@ def test_user_menu_links(client):
 
 def test_user_menu_links_after_login(client):
     with client:
+        """This tests the user menu links , after login"""
         register_response = client.post("/register", data={
             "email": "testuser1@test.com",
             "password": "test123!test",
